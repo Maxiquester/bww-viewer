@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "BWW Viewer",
+  "version": "1.0.0",
+  "description": "Displays BWW bagpipe music files directly in Chrome",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["webNavigation"],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*.bww*", "*://*/*.BWW*"],
+      "js": [
+        "lib/bww-parser.js",
+        "lib/bww-renderer.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["viewer.html", "lib/bww-parser.js", "lib/bww-renderer.js", "viewer.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

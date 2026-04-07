@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "BWW Viewer",
+  "version": "1.0.0",
+  "description": "Displays BWW bagpipe music files directly in Firefox",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "bww-viewer@bww",
+      "strict_min_version": "109.0"
+    }
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    "webNavigation",
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*.bww*", "*://*/*.BWW*"],
+      "js": [
+        "lib/bww-parser.js",
+        "lib/bww-renderer.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    "viewer.html",
+    "lib/bww-parser.js",
+    "lib/bww-renderer.js",
+    "viewer.js"
+  ]
+}
