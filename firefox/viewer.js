@@ -38,6 +38,19 @@ async function main() {
 
         statusEl.textContent = 'Geladen: ' + musicLines + ' Zeilen, ' + notes + ' Noten';
         renderSheet();
+
+        // Download-Button aktivieren
+        const dlBtn = document.getElementById('downloadBtn');
+        dlBtn.style.display = '';
+        dlBtn.onclick = () => {
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = decodeURIComponent(src).split('/').pop() || 'tune.bww';
+            a.click();
+            URL.revokeObjectURL(url);
+        };
     } catch (err) {
         statusEl.textContent = 'Fehler: ' + err.message;
         statusEl.classList.add('error');

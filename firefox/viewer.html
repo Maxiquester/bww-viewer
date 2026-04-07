@@ -81,7 +81,10 @@
   </style>
 </head>
 <body>
-  <div id="status">Lade Datei …</div>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+    <div id="status" style="flex:1">Lade Datei …</div>
+    <button id="downloadBtn" style="padding:6px 14px;border:1px solid #dee2e6;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;display:none" title="BWW-Datei herunterladen">⬇ Download .bww</button>
+  </div>
   <div id="statsContainer"></div>
   <div class="tabs">
     <div class="tab active" data-tab="sheet">Noten</div>
