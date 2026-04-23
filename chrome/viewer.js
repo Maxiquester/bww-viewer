@@ -24,9 +24,28 @@ async function main() {
     statusEl.textContent = 'Lade ' + decodeURIComponent(src) + ' …';
 
     try {
-        const res = await fetch(src);
+        let text;
+        
+        // Use fetch with stream reading to handle Content-Length header issues
+        const res = await fetch(src, {
+            headers: { 'Accept-Encoding': 'identity' }
+        });
         if (!res.ok) throw new Error('HTTP ' + res.status);
-        const text = await res.text();
+        
+        // Use ReadableStream to avoid Content-Length header issues
+        const reader = res.body.getReader();
+        const chunks = [];
+        try {
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                chunks.push(value);
+            }
+        } catch (streamErr) {
+            // Continue with partial data if stream fails
+        }
+        const blob = new Blob(chunks, { type: 'text/plain; charset=utf-8' });
+        text = await blob.text();
 
         document.getElementById('bwwText').value = text;
 
